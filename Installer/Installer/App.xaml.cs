@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using Installer.ViewModels;
+using System.Configuration;
 using System.Data;
 using System.Windows;
 
@@ -10,5 +11,4 @@ namespace Installer
     public partial class App : Application
     {
     }
-
 }
