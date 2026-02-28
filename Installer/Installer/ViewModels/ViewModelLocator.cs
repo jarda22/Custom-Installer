@@ -1,4 +1,5 @@
-﻿using Installer.Interfaces;
+﻿using Installer.Data;
+using Installer.Interfaces;
 using Installer.ViewModels.Implementation;
 using Installer.ViewModels.Implementation.Install;
 using Installer.ViewModels.Implementation.Uninstall;
@@ -7,13 +8,14 @@ using Installer.ViewModels.Interface.Install;
 using Installer.ViewModels.Interface.Uninstall;
 using System.Collections.ObjectModel;
 using Unity;
+using Unity.Injection;
 using Unity.Lifetime;
 
 namespace Installer.ViewModels
 {
     internal class ViewModelLocator
     {
-        IUnityContainer container;
+        private IUnityContainer container;
 
         internal ViewModelLocator()
         {
@@ -22,6 +24,9 @@ namespace Installer.ViewModels
             this.container.RegisterType<IInstallLandingPageViewModel, InstallLandingPageViewModel>(new ContainerControlledLifetimeManager());
             this.container.RegisterType<IUninstallLandingPage, UninstallLandingPageViewModel>(new ContainerControlledLifetimeManager());
             this.container.RegisterType<ISummaryPageViewModel, SummaryPageViewModel>(new ContainerControlledLifetimeManager());
+
+            this.container.RegisterType<InstallData>(new ContainerControlledLifetimeManager());
+
             this.container.RegisterInstance("InstallPages", this.GetInstallPageCollection(), new ContainerControlledLifetimeManager());
             this.container.RegisterInstance("UninstallPages", this.GetUninstallPageCollection(), new ContainerControlledLifetimeManager());
         }

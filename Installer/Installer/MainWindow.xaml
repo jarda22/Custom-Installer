@@ -9,5 +9,5 @@
         Title="MainWindow"
         Height="450"
         Width="800">
-    <view:MainView DataContext="{Binding MainViewModel, Source={StaticResource Locator}}"/>
+    <view:MainView DataContext="{Binding MainViewModel, Source={StaticResource Locator}}" />
 </Window>

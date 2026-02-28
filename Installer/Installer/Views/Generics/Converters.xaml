@@ -1,5 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converts="clr-namespace:Installer.Views.Generics.Converters">
-    <converts:BoolToVisibilityConverter x:Key="BoolToVisible"/>
+    <converts:BoolToVisibilityConverter x:Key="BoolToVisible" />
 </ResourceDictionary>

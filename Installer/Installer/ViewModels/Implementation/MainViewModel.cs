@@ -1,25 +1,35 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using Installer.Data;
+using Installer.Helpers;
 using Installer.Interfaces;
 using Installer.ViewModels.Interface;
 using System.Collections.ObjectModel;
-using System.Runtime.CompilerServices;
-using System.Windows;
 using Unity;
 
 namespace Installer.ViewModels.Implementation
 {
     internal class MainViewModel : ViewModelBase, IMainViewModel
     {
-        private bool isInstallMode;
-
         private int currentPage = 0;
 
         private ObservableCollection<IInstallerPageBase> pageCollection;
 
-        internal MainViewModel(IUnityContainer container, bool isInstallMode = true) 
+        internal MainViewModel(IUnityContainer container, bool isInstallMode = true)
         {
-            this.isInstallMode = isInstallMode;
-            this.pageCollection = container.Resolve<ObservableCollection<IInstallerPageBase>>("InstallPages");
+            InstallData data = container.Resolve<InstallData>();
+
+            string collectionName = "InstallPages";
+            if (RegistryHelper.CheckLocallyInstalled(data.AppName) || RegistryHelper.CheckGloballyInstalled(data.AppName))
+            {
+                collectionName = "UninstallPages";
+                RegistryHelper.DeleteLocalKey(data.AppName);
+            }
+            else
+            {
+                RegistryHelper.CreateLocalKey(data);
+            }
+
+            this.pageCollection = container.Resolve<ObservableCollection<IInstallerPageBase>>(collectionName);
         }
 
         public IInstallerPageBase CurrentPage => this.pageCollection[currentPage];
@@ -37,7 +47,7 @@ namespace Installer.ViewModels.Implementation
             // Reference a saving helper class that does all the things we want.
         }
 
-        private void Cancel() 
+        private void Cancel()
         {
             App.Current.Shutdown();
         }
